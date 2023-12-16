@@ -3,98 +3,65 @@
 
 using namespace std;
 
+// Базовый класс
 class Device {
-private:
+protected:
     string manufacturer;
     string model;
     string name;
     int capacity;
     int quantity;
-
 public:
-    Device(string manufacturer, string model, string name, int capacity, int quantity) {
-        SetManufacturer(manufacturer);
-        SetModel(model);
-        SetName(name);
-        SetCapacity(capacity);
-        SetQuantity(quantity);
+    Device(string m, string mo, string n, int c, int q) {
+        setManufacturer(m);
+        setModel(mo);
+        setName(n);
+        setCapacity(c);
+        setQuantity(q);
     }
 
-    void SetManufacturer(const string& m) {
-        manufacturer = m;
+    void setManufacturer(string m) { manufacturer = m; }
+    string getManufacturer() { return manufacturer; }
+
+    void setModel(string mo) { model = mo; }
+    string getModel() { return model; }
+
+    void setName(string n) { name = n; }
+    string getName() { return name; }
+
+    void setCapacity(int c) { capacity = c; }
+    int getCapacity() { return capacity; }
+
+    void setQuantity(int q) { quantity = q; }
+    int getQuantity() { return quantity; }
+
+    virtual void print() {
+        cout << "Device: " << getManufacturer() << " " << getModel() << " " << getName() << " " << getCapacity() << " " << getQuantity() << "\n";
     }
 
-    const string& GetManufacturer() const {
-        return manufacturer;
-    }
-
-    void SetModel(const string& m) {
-        model = m;
-    }
-
-    const string& GetModel() const {
-        return model;
-    }
-
-    void SetName(const string& n) {
-        name = n;
-    }
-
-    const string& GetName() const {
-        return name;
-    }
-
-    void SetCapacity(int c) {
-        capacity = c;
-    }
-
-    int GetCapacity() const {
-        return capacity;
-    }
-
-    void SetQuantity(int q) {
-        quantity = q;
-    }
-
-    int GetQuantity() const {
-        return quantity;
-    }
-
-    virtual void Print() const {
-        cout << "Device: " << GetManufacturer() << " " << GetModel() << " " << GetName() << " " << GetCapacity() << " " << GetQuantity() << "\n";
-    }
-
-    virtual void Load() const {
+    virtual void load() {
         cout << "Loading device\n";
     }
 
-    virtual void Save() const {
+    virtual void save() {
         cout << "Saving device\n";
     }
-
-    virtual ~Device() {}
 };
 
+// Производный класс
 class FlashDrive : public Device {
 public:
-    FlashDrive(string manufacturer, string model, string name, int capacity, int quantity)
-    {
-        SetManufacturer(manufacturer);
-        SetModel(model);
-        SetName(name);
-        SetCapacity(capacity);
-        SetQuantity(quantity);
+    FlashDrive(string m, string mo, string n, int c, int q) : Device(m, mo, n, c, q) {}
+
+    void print() override {
+        cout << "Flash Drive: " << getManufacturer() << " " << getModel() << " " << getName() << " " << getCapacity() << " " << getQuantity() << "\n";
     }
 
-    void Print() const override {
-        cout << "Flash Drive: " << GetManufacturer() << " " << GetModel() << " " << GetName() << " " << GetCapacity() << " " << GetQuantity() << "\n";
-    }
-
-    void Load() const override {
+    void load() override {
         cout << "Loading flash drive\n";
     }
 
-    void Save() const override {
+    void save() override {
         cout << "Saving flash drive\n";
     }
 };
@@ -105,9 +72,9 @@ int main() {
     devices[1] = new FlashDrive("Samsung", "A1", "Flash Drive", 64, 10);
 
     for (int i = 0; i < 2; i++) {
-        devices[i]->Print();
-        devices[i]->Load();
-        devices[i]->Save();
+        devices[i]->print();
+        devices[i]->load();
+        devices[i]->save();
     }
 
     for (int i = 0; i < 2; i++) {
