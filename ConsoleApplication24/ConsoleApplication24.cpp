@@ -3,44 +3,98 @@
 
 using namespace std;
 
-// Базовый класс
 class Device {
-protected:
+private:
     string manufacturer;
     string model;
     string name;
     int capacity;
     int quantity;
-public:
-    Device(string manufacturer, string model, string name, int capacity, int quantity) : manufacturer(manufacturer), model(model), name(name), capacity(capacity), quantity(quantity) {}
 
-    virtual void print() {
-        cout << "Device: " << manufacturer << " " << model << " " << name << " " << capacity << " " << quantity << "\n";
+public:
+    Device(string manufacturer, string model, string name, int capacity, int quantity) {
+        SetManufacturer(manufacturer);
+        SetModel(model);
+        SetName(name);
+        SetCapacity(capacity);
+        SetQuantity(quantity);
     }
 
-    virtual void load() {
+    void SetManufacturer(const string& m) {
+        manufacturer = m;
+    }
+
+    const string& GetManufacturer() const {
+        return manufacturer;
+    }
+
+    void SetModel(const string& m) {
+        model = m;
+    }
+
+    const string& GetModel() const {
+        return model;
+    }
+
+    void SetName(const string& n) {
+        name = n;
+    }
+
+    const string& GetName() const {
+        return name;
+    }
+
+    void SetCapacity(int c) {
+        capacity = c;
+    }
+
+    int GetCapacity() const {
+        return capacity;
+    }
+
+    void SetQuantity(int q) {
+        quantity = q;
+    }
+
+    int GetQuantity() const {
+        return quantity;
+    }
+
+    virtual void Print() const {
+        cout << "Device: " << GetManufacturer() << " " << GetModel() << " " << GetName() << " " << GetCapacity() << " " << GetQuantity() << "\n";
+    }
+
+    virtual void Load() const {
         cout << "Loading device\n";
     }
 
-    virtual void save() {
+    virtual void Save() const {
         cout << "Saving device\n";
     }
+
+    virtual ~Device() {}
 };
 
-// Производный класс
 class FlashDrive : public Device {
 public:
-    FlashDrive(string manufacturer, string model, string name, int capacity, int quantity) : Device(manufacturer, model, name, capacity, quantity) {}
-
-    void print() override {
-        cout << "Flash Drive: " << manufacturer << " " << model << " " << name << " " << capacity << " " << quantity << "\n";
+    FlashDrive(string manufacturer, string model, string name, int capacity, int quantity)
+    {
+        SetManufacturer(manufacturer);
+        SetModel(model);
+        SetName(name);
+        SetCapacity(capacity);
+        SetQuantity(quantity);
     }
 
-    void load() override {
+    void Print() const override {
+        cout << "Flash Drive: " << GetManufacturer() << " " << GetModel() << " " << GetName() << " " << GetCapacity() << " " << GetQuantity() << "\n";
+    }
+
+    void Load() const override {
         cout << "Loading flash drive\n";
     }
 
-    void save() override {
+    void Save() const override {
         cout << "Saving flash drive\n";
     }
 };
@@ -51,9 +105,9 @@ int main() {
     devices[1] = new FlashDrive("Samsung", "A1", "Flash Drive", 64, 10);
 
     for (int i = 0; i < 2; i++) {
-        devices[i]->print();
-        devices[i]->load();
-        devices[i]->save();
+        devices[i]->Print();
+        devices[i]->Load();
+        devices[i]->Save();
     }
 
     for (int i = 0; i < 2; i++) {
